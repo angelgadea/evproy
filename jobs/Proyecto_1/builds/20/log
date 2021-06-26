@@ -1,0 +1,25 @@
+Started by user unknown or anonymous
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/Proyecto_1
+No emails were triggered.
+[Proyecto_1] $ /bin/bash /tmp/jenkins3149162022183597317.sh
+/var/lib/jenkins/workspace/Proyecto_1
+
+
+Ejecutando operacion sobre directorio ..... /home/jenkins/proyecto/evproy 
+mkdir: cannot create directory ‘/home/jenkins/proyecto/evproy’: File exists
+/home/jenkins/proyecto/evproy
+Parametros : instancia-y   e2-micro   us-central1-b
+Entrando opcion de ejecucion de crear maquina 
+Created [https://www.googleapis.com/compute/v1/projects/hybrid-text-311905/zones/us-central1-b/instances/instancia-y].
+NAME         ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
+instancia-y  us-central1-b  e2-micro      true         10.128.0.6   35.222.50.119  RUNNING
+Email was triggered for: Success
+Email was triggered for: Always
+Sending email for trigger: Always
+Request made to compress build log
+Sending email to: Angel.Ricardo.Gadea.Lira@ibm.com
+Sending email for trigger: Success
+Request made to compress build log
+An attempt to send an e-mail to empty list of recipients, ignored.
+Finished: SUCCESS

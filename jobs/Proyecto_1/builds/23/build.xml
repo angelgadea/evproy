@@ -1,0 +1,71 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<build>
+  <actions>
+    <hudson.model.ParametersAction>
+      <safeParameters class="sorted-set"/>
+      <parameters>
+        <hudson.model.StringParameterValue>
+          <name>opcion</name>
+          <description>Elija si desea crear o borrar una nueva maquina: </description>
+          <value>borrar_m</value>
+        </hudson.model.StringParameterValue>
+        <hudson.model.StringParameterValue>
+          <name>type_m</name>
+          <description>Seleccionar Zona de Creacion de la Maquina Virtual</description>
+          <value>e2-micro</value>
+        </hudson.model.StringParameterValue>
+        <hudson.model.StringParameterValue>
+          <name>zona</name>
+          <description>Elija Zona de Creacion de la Maquina</description>
+          <value>us-central1-b</value>
+        </hudson.model.StringParameterValue>
+        <hudson.model.StringParameterValue>
+          <name>Directorio</name>
+          <description>Introducir el directorio de Trabajo. Por ejemlo : /home/jenkins/proyecto/newdir (Dejarlo con valor predeterminado)
+
+
+
+</description>
+          <value>/home/jenkins/proyecto/evproy</value>
+        </hudson.model.StringParameterValue>
+        <hudson.model.StringParameterValue>
+          <name>instancia</name>
+          <description>Seleccione Nombre de la maquina</description>
+          <value>instancia-y</value>
+        </hudson.model.StringParameterValue>
+      </parameters>
+      <parameterDefinitionNames>
+        <string>opcion</string>
+        <string>type_m</string>
+        <string>zona</string>
+        <string>Directorio</string>
+        <string>instancia</string>
+      </parameterDefinitionNames>
+    </hudson.model.ParametersAction>
+    <hudson.model.CauseAction>
+      <causeBag class="linked-hash-map">
+        <entry>
+          <hudson.model.Cause_-UserIdCause/>
+          <int>1</int>
+        </entry>
+      </causeBag>
+    </hudson.model.CauseAction>
+    <com.cloudbees.jenkins.plugins.bitbucket.FirstCheckoutCompletedInvisibleAction plugin="cloudbees-bitbucket-branch-source@2.5.0"/>
+    <jenkins.plugins.show__build__parameters.ShowParametersBuildAction plugin="show-build-parameters@1.0">
+      <build class="build" reference="../../.."/>
+    </jenkins.plugins.show__build__parameters.ShowParametersBuildAction>
+    <hudson.tasks.MailMessageIdAction plugin="mailer@1.32.1"/>
+  </actions>
+  <queueId>31</queueId>
+  <timestamp>1624602589375</timestamp>
+  <startTime>1624602589408</startTime>
+  <result>SUCCESS</result>
+  <duration>58691</duration>
+  <charset>UTF-8</charset>
+  <keepLog>false</keepLog>
+  <builtOn></builtOn>
+  <workspace>/var/lib/jenkins/workspace/Proyecto_1</workspace>
+  <hudsonVersion>2.235.2</hudsonVersion>
+  <scm class="hudson.scm.NullChangeLogParser"/>
+  <culprits class="com.google.common.collect.EmptyImmutableSortedSet"/>
+</build>

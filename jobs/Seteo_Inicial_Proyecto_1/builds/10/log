@@ -1,0 +1,29 @@
+Started by user unknown or anonymous
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/Seteo_Inicial_Proyecto_1
+No emails were triggered.
+[Seteo_Inicial_Proyecto_1] $ /bin/bash /tmp/jenkins5379681567144577013.sh
+/var/lib/jenkins/workspace/Seteo_Inicial_Proyecto_1
+
+
+Ejecutando operacion sobre directorio ..... /home/jenkins/proyecto 
+mkdir: cannot create directory ‘/home/jenkins/proyecto’: File exists
+/home/jenkins/proyecto
+
+
+Clonando Repositorio sobre el directorio ....
+
+
+Reinitialized existing Git repository in /home/jenkins/proyecto/.git/
+Valor de proy_id : hybrid-text-311905 
+Updated property [core/project].
+Espere mientras se setea el proyecto
+Email was triggered for: Success
+Email was triggered for: Always
+Sending email for trigger: Always
+Request made to compress build log
+Sending email to: Angel.Ricardo.Gadea.Lira@ibm.com
+Sending email for trigger: Success
+Request made to compress build log
+An attempt to send an e-mail to empty list of recipients, ignored.
+Finished: SUCCESS

@@ -1,0 +1,18 @@
+Started by user unknown or anonymous
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/Seteo_Inicial_Proyecto_1
+No emails were triggered.
+[Seteo_Inicial_Proyecto_1] $ /bin/bash /tmp/jenkins5101786542774927135.sh
+/var/lib/jenkins/workspace/Seteo_Inicial_Proyecto_1
+
+
+Ejecutando operacion sobre directorio ..... /home/jenkins/proyecto 
+mkdir: cannot create directory ‘/home/jenkins/proyecto’: File exists
+/home/jenkins/proyecto
+
+
+Clonando Repositorio sobre el directorio ....
+
+
+Reinitialized existing Git repository in /home/jenkins/proyecto/.git/
+Updated property [core/project].

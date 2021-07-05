@@ -1,0 +1,24 @@
+Started by user unknown or anonymous
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/proyecto_3
+No emails were triggered.
+[proyecto_3] $ /bin/bash /tmp/jenkins410236031534429287.sh
+/var/lib/jenkins/workspace/proyecto_3
+
+
+Ejecutando operacion sobre directorio ..... /home/devops 
+mkdir: cannot create directory ‘/home/devops’: File exists
+/home/devops
+Entrando opcion de ejecucion de crear nodo jenkins 
+/home/devops
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+Host key verification failed.
+Email was triggered for: Success
+Email was triggered for: Always
+Sending email for trigger: Always
+Request made to compress build log
+Sending email to: Angel.Ricardo.Gadea.Lira@ibm.com
+Sending email for trigger: Success
+Request made to compress build log
+An attempt to send an e-mail to empty list of recipients, ignored.
+Finished: SUCCESS

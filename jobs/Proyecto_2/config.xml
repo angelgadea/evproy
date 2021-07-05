@@ -1,0 +1,309 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.0.10">
+      <siteName>https://strategy-hub.atlassian.net/jira/</siteName>
+    </hudson.plugins.jira.JiraProjectProperty>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>3</daysToKeep>
+        <numToKeep>5</numToKeep>
+        <artifactDaysToKeep>5</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <org.jenkinsci.plugins.gitbucket.GitBucketProjectProperty plugin="gitbucket@0.8">
+      <linkEnabled>false</linkEnabled>
+    </org.jenkinsci.plugins.gitbucket.GitBucketProjectProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <org.biouno.unochoice.ChoiceParameter plugin="uno-choice@2.5.6">
+          <name>opcion</name>
+          <description>Elija si desea crear o borrar una nueva maquina: </description>
+          <randomName>choice-parameter-4688916598317</randomName>
+          <visibleItemCount>1</visibleItemCount>
+          <script class="org.biouno.unochoice.model.GroovyScript">
+            <secureScript plugin="script-security@1.77">
+              <script>return[
+&apos;crear_m&apos;,
+&apos;borrar_m&apos;
+]</script>
+              <sandbox>false</sandbox>
+            </secureScript>
+            <secureFallbackScript plugin="script-security@1.77">
+              <script>return[&apos;OPCION NO DESEADA&apos;]</script>
+              <sandbox>false</sandbox>
+            </secureFallbackScript>
+          </script>
+          <projectName>Proyecto_2</projectName>
+          <projectFullName>Proyecto_2</projectFullName>
+          <choiceType>PT_SINGLE_SELECT</choiceType>
+          <filterable>false</filterable>
+          <filterLength>1</filterLength>
+        </org.biouno.unochoice.ChoiceParameter>
+        <hudson.model.StringParameterDefinition>
+          <name>Directorio</name>
+          <description>Introducir el directorio de Trabajo. Por ejemlo : /home/jenkins/proyecto/newdir (Dejarlo con valor predeterminado)
+
+Verificar el archivo ejecutable terraform debe estar en el subdirectorio ./evproy/terraform , este no es bajado del githib.
+
+
+
+</description>
+          <defaultValue>/home/jenkins/proyecto/evproy/terraform</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>instancia</name>
+          <description>Seleccione Nombre de la maquina</description>
+          <defaultValue>instancia-z</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <org.biouno.unochoice.ChoiceParameter plugin="uno-choice@2.5.6">
+          <name>ingress</name>
+          <description>Indique sidesea exponer servicios Ingress ? </description>
+          <randomName>choice-parameter-7529046873952</randomName>
+          <visibleItemCount>1</visibleItemCount>
+          <script class="org.biouno.unochoice.model.GroovyScript">
+            <secureScript plugin="script-security@1.77">
+              <script>return[
+&apos;SI&apos;,
+&apos;NO&apos;
+]</script>
+              <sandbox>false</sandbox>
+            </secureScript>
+            <secureFallbackScript plugin="script-security@1.77">
+              <script>turn[&apos;OPCION NO DESEADA&apos;]</script>
+              <sandbox>false</sandbox>
+            </secureFallbackScript>
+          </script>
+          <projectName>Proyecto_2</projectName>
+          <projectFullName>Proyecto_2</projectFullName>
+          <choiceType>PT_CHECKBOX</choiceType>
+          <filterable>false</filterable>
+          <filterLength>1</filterLength>
+        </org.biouno.unochoice.ChoiceParameter>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+
+
+pwd
+
+echo &quot;&quot;
+echo &quot;&quot;
+echo &quot;Ejecutando operacion sobre directorio ..... $Directorio &quot;
+
+mkdir $Directorio
+
+cd $Directorio/t3
+
+pwd
+
+echo &quot;Parametros : $instancia   $type_m   $zona&quot;
+
+
+if [ &quot;$opcion&quot; == &apos;crear_m&apos; ];then
+
+echo &quot;Entrando opcion de ejecucion de crear maquina &quot;
+
+#gcloud compute instances create $instancia --machine-type=$type_m --zone=$zona --preemptible --no-restart-on-failure --maintenance-policy=terminate --image-family=rhel-8 --image-project=rhel-cloud
+
+pwd
+
+
+ls -lrt terraform
+
+./terraform init
+
+sleep 10
+
+./terraform plan
+
+sleep 10
+
+./terraform apply -auto-approve
+
+sleep 100
+
+sleep 30
+
+fi
+
+if [ &quot;$opcion&quot; == &apos;borrar_m&apos; ];then
+
+pwd
+
+echo &quot;Entrando opcion de ejecucion de borrar maquina &quot;
+
+ls -lrt terraform
+
+./terraform init
+
+sleep 10
+
+#gcloud compute instances create $instancia --machine-type=$type_m --zone=$zona --preemptible --no-restart-on-failure --maintenance-policy=terminate --image-family=rhel-8 --image-project=rhel-cloud
+
+./terraform destroy -auto-approve
+
+sleep 30
+
+fi
+
+if [ &quot;$ingress&quot; == &apos;SI&apos; ];then
+
+echo &quot;Obteniendo credenciales desde GCP &quot;
+
+gcloud beta container clusters get-credentials cluster-1 --region us-central1 --project august-charter-317203
+
+cd ./app
+
+echo &quot;Ejecutando kubectl deployments &quot;
+
+kubectl apply -f deployment.yaml
+
+echo &quot;Ejecutando kubectl services &quot;
+
+kubectl apply -f service.yaml
+
+echo &quot;Exponiendo Ingress &quot;
+
+kubectl apply -f ingress.yaml
+
+
+kubectl get ingress
+
+
+#gcloud compute instances create $instancia --machine-type=$type_m --zone=$zona --preemptible --no-restart-on-failure --maintenance-policy=terminate --image-family=rhel-8 --image-project=rhel-cloud
+
+fi
+
+
+
+
+#gcloud compute instances delete server-2 --zone=us-central1-b
+
+
+#gcloud compute instances create server-2 --machine-type=e2-micro --zone=us-central1-b --preemptible --no-restart-on-failure --maintenance-policy=terminate --image-family=rhel-8 --image-project=rhel-cloud
+
+
+
+#gcloud compute instances delete server-2 --machine-type=e2-micro --zone=us-central1-b --preemptible --no-restart-on-failure --maintenance-policy=terminate --image-family=rhel-8 --image-project=rhel-cloud
+
+
+
+
+
+
+
+
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.68">
+      <recipientList>Angel.Ricardo.Gadea.Lira@ibm.com</recipientList>
+      <configuredTriggers>
+        <hudson.plugins.emailext.plugins.trigger.FailureTrigger>
+          <email>
+            <subject>$PROJECT_DEFAULT_SUBJECT</subject>
+            <body>$PROJECT_DEFAULT_CONTENT</body>
+            <recipientProviders>
+              <hudson.plugins.emailext.plugins.recipients.DevelopersRecipientProvider/>
+            </recipientProviders>
+            <attachmentsPattern></attachmentsPattern>
+            <attachBuildLog>false</attachBuildLog>
+            <compressBuildLog>false</compressBuildLog>
+            <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
+            <contentType>project</contentType>
+          </email>
+        </hudson.plugins.emailext.plugins.trigger.FailureTrigger>
+        <hudson.plugins.emailext.plugins.trigger.SuccessTrigger>
+          <email>
+            <subject>$PROJECT_DEFAULT_SUBJECT</subject>
+            <body>$PROJECT_DEFAULT_CONTENT</body>
+            <recipientProviders>
+              <hudson.plugins.emailext.plugins.recipients.DevelopersRecipientProvider/>
+            </recipientProviders>
+            <attachmentsPattern></attachmentsPattern>
+            <attachBuildLog>false</attachBuildLog>
+            <compressBuildLog>false</compressBuildLog>
+            <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
+            <contentType>project</contentType>
+          </email>
+        </hudson.plugins.emailext.plugins.trigger.SuccessTrigger>
+        <hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
+          <email>
+            <subject>$PROJECT_DEFAULT_SUBJECT</subject>
+            <body>$PROJECT_DEFAULT_CONTENT</body>
+            <recipientProviders>
+              <hudson.plugins.emailext.plugins.recipients.DevelopersRecipientProvider/>
+              <hudson.plugins.emailext.plugins.recipients.ListRecipientProvider/>
+            </recipientProviders>
+            <attachmentsPattern></attachmentsPattern>
+            <attachBuildLog>false</attachBuildLog>
+            <compressBuildLog>false</compressBuildLog>
+            <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
+            <contentType>project</contentType>
+          </email>
+        </hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
+        <hudson.plugins.emailext.plugins.trigger.AbortedTrigger>
+          <email>
+            <subject>$PROJECT_DEFAULT_SUBJECT</subject>
+            <body>$PROJECT_DEFAULT_CONTENT</body>
+            <recipientProviders>
+              <hudson.plugins.emailext.plugins.recipients.DevelopersRecipientProvider/>
+              <hudson.plugins.emailext.plugins.recipients.ListRecipientProvider/>
+            </recipientProviders>
+            <attachmentsPattern></attachmentsPattern>
+            <attachBuildLog>false</attachBuildLog>
+            <compressBuildLog>false</compressBuildLog>
+            <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
+            <contentType>project</contentType>
+          </email>
+        </hudson.plugins.emailext.plugins.trigger.AbortedTrigger>
+      </configuredTriggers>
+      <contentType>default</contentType>
+      <defaultSubject>Informativo Despliegue Consola Jenkins  - $ticket : ($app)</defaultSubject>
+      <defaultContent>Estimad@s,
+
+Se envia el resultado de ejecucion:
+
+$DEFAULT_CONTENT
+
+Jenkins
+AdministrEstimad@s,
+
+Se envia el resultado de ejecucion:
+
+$DEFAULT_CONTENT
+
+Jenkins
+Administracion | Jenkins Console | Lima
+site:  192.168.2.10:9000| Jenkins Console | Lima</defaultContent>
+      <attachmentsPattern></attachmentsPattern>
+      <presendScript>$DEFAULT_PRESEND_SCRIPT</presendScript>
+      <postsendScript>$DEFAULT_POSTSEND_SCRIPT</postsendScript>
+      <attachBuildLog>true</attachBuildLog>
+      <compressBuildLog>true</compressBuildLog>
+      <replyTo>$DEFAULT_REPLYTO</replyTo>
+      <from></from>
+      <saveOutput>false</saveOutput>
+      <disabled>false</disabled>
+    </hudson.plugins.emailext.ExtendedEmailPublisher>
+  </publishers>
+  <buildWrappers/>
+</project>
